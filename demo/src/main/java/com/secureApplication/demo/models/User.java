@@ -1,9 +1,7 @@
 package com.secureApplication.demo.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
 
 @Table(name = "user")
 @Entity
@@ -12,9 +10,11 @@ public class User {
     @Id
     @GeneratedValue
     private Long id;
-
+    @Column(nullable = false, unique = true)//extra security to prevent objects with missing fields being inserted into the database
     private String username;
-    private String password; // stored as plain text insecure
+    @Column(nullable = false)
+    private String password; //hashed before storing into database
+    @Column(nullable = false, unique = true)
     private String email;
 
     public Long getId() {

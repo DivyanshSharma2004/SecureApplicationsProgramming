@@ -1,42 +1,18 @@
 package com.secureApplication.demo.repository;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.transaction.Transactional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import com.secureApplication.demo.models.User;
 
+import java.util.Optional;
+
 @Repository
-public class UserRepository {
+public interface UserRepository extends JpaRepository<User, Long> {
+    //switched over to Spring jpa, no need to use raw sql prevents concactation
+    @Query("SELECT u FROM User u WHERE u.username = :username")
+    Optional<User> findByUsername(@Param("username") String username);
 
-    //object used to interact with the database
-    @PersistenceContext
-    private EntityManager entityManager;
-
-    //TODO:fix this method
-    /*
-    * intentionally vulnerable to sql injection
-    * user input is concacted directly into SQL query string without validation
-    *
-    * violates Owasp: injection vulnerability
-    * */
-    public User findUserByUsername(String username) {
-
-        String query =
-                "SELECT * FROM user WHERE username = '" + username + "'";
-
-        return (User) entityManager
-                .createNativeQuery(query, User.class)
-                .getSingleResult();//throws error when more than 1 user is fetched
-    }
-
-    //TODO:fix this method
-    /*
-     * saves a user object to the database.
-     * no input validation or password protection is place
-     */
-    @Transactional
-    public void save(User user) {
-        entityManager.persist(user);
-    }
 }
