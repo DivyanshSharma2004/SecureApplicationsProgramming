@@ -22,29 +22,21 @@
 <!-- Reflected XSS -->
 <!--fix use th:text instead of utext -->
 <!--Reflected XSS attack demo -->
-<p th:utext="${query}"></p>
+<p th:text="${query}"></p>
 
 <div th:each="post : ${posts}">
     <h3 th:text="${post.title}"></h3>
 
     <!-- Stored XSS vunerability is rendered here -->
-    <div th:utext="${post.content}"></div>
+    <div th:text="${post.content}"></div>
     <p th:text="'Author: ' + ${post.author}"></p>
     <hr>
 </div>
 
 <div id="dom-output"></div>
 
-<script>
-    // DOM-based XSS vunerability
-    //The query gets rendered as a script
-    const params = new URLSearchParams(window.location.search);
-    const msg = params.get("msg");
-
-    if (msg) {
-        document.getElementById("dom-output").innerHTML = msg;
-    }
-</script>
+<!-- external js for the CSP-->
+<script th:src="@{/js/main.js}"></script>
 
 </body>
 </html>

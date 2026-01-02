@@ -23,8 +23,16 @@ public class SecurityConfig {
         //FIXME: broken method
         http
                 .csrf(AbstractHttpConfigurer::disable) // CSRF is disabled, insecure
-                .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll() // all requests are open
+                .authorizeHttpRequests(auth ->
+                        auth.anyRequest().permitAll() // all requests are open
+                ).headers(httpSecurityHeadersConfigurer ->//header logic
+                        httpSecurityHeadersConfigurer.contentSecurityPolicy(contentSecurityPolicyConfig ->
+                                contentSecurityPolicyConfig.policyDirectives(//setting csp rules
+                                        "default-src 'self'; " +
+                                                "script-src 'self'; " +
+                                                "style-src 'self' 'unsafe-inline'; "
+                                )
+                        )
                 );
 
         return http.build();
