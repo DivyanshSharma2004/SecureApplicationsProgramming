@@ -2,6 +2,7 @@ package com.secureApplication.demo.repository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 import com.secureApplication.demo.models.User;
 
@@ -34,6 +35,7 @@ public class UserRepository {
      * saves a user object to the database.
      * no input validation or password protection is place
      */
+    @Transactional
     public void save(User user) {
         entityManager.persist(user);
     }
