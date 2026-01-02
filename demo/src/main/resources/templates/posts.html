@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Posts</title>
+</head>
+<body>
+
+<h2>Create Post</h2>
+
+<form method="post" action="/posts">
+    <input name="title" placeholder="Title"><br><br>
+    <textarea name="content" placeholder="Post content"></textarea><br><br>
+    <input name="author" placeholder="Author"><br><br>
+    <button type="submit">Post</button>
+</form>
+
+<hr>
+
+<h2>All Posts</h2>
+
+<!-- Reflected XSS -->
+<!--fix use th:text instead of utext -->
+<!--Reflected XSS attack demo -->
+<p th:utext="${query}"></p>
+
+<div th:each="post : ${posts}">
+    <h3 th:text="${post.title}"></h3>
+
+    <!-- Stored XSS vunerability is rendered here -->
+    <div th:utext="${post.content}"></div>
+    <p th:text="'Author: ' + ${post.author}"></p>
+    <hr>
+</div>
+
+<div id="dom-output"></div>
+
+<script>
+    // DOM-based XSS vunerability
+    //The query gets rendered as a script
+    const params = new URLSearchParams(window.location.search);
+    const msg = params.get("msg");
+
+    if (msg) {
+        document.getElementById("dom-output").innerHTML = msg;
+    }
+</script>
+
+</body>
+</html>
