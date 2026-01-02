@@ -2,6 +2,8 @@ package com.secureApplication.demo.controller;
 
 import com.secureApplication.demo.models.Post;
 import com.secureApplication.demo.repository.PostRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,13 +16,16 @@ public class PostController {
 
     @Autowired
     private PostRepository postRepository;
+    //logger
+    private static final Logger logger = LoggerFactory.getLogger(PostController.class);
+
 
     /*
      * displays all posts and the create-post form, user-generated content is rendered without sanitisation
      */
     @GetMapping("/posts")
     public String viewPosts(Model model) {
-
+        logger.info("Fetching all posts");
         model.addAttribute("posts", postRepository.findAll());
 
         return "posts";
@@ -31,6 +36,7 @@ public class PostController {
      */
     @PostMapping("/posts")
     public String createPost(Post post) {
+        logger.info("Creating new post");
         postRepository.save(post);
 
         return "redirect:/posts";
@@ -42,7 +48,7 @@ public class PostController {
      */
     @GetMapping("/search")
     public String search(@RequestParam String query, Model model) {
-
+        logger.warn("Search endpoint hit with query: {}", query);
         // Reflected user input (intentionally insecure)
         model.addAttribute("query", query);
         model.addAttribute("posts", postRepository.findAll());

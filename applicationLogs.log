@@ -1,0 +1,11 @@
+2026-01-02T04:26:31.841Z  INFO 8664 --- [SecureApp] [main] c.s.demo.SecureAppApplication            : Starting SecureAppApplication using Java 21.0.2 with PID 8664 (C:\Users\divme\OneDrive\Documents\GitHub\SecureApplicationsProgramming\demo\target\classes started by divme in C:\Users\divme\OneDrive\Documents\GitHub\SecureApplicationsProgramming)
+2026-01-02T04:26:31.844Z  INFO 8664 --- [SecureApp] [main] c.s.demo.SecureAppApplication            : No active profile set, falling back to 1 default profile: "default"
+2026-01-02T04:26:35.272Z  WARN 8664 --- [SecureApp] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-02T04:26:35.300Z  WARN 8664 --- [SecureApp] [main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 6c3f6f8f-7241-4d88-8bba-64190b998574
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-01-02T04:26:35.793Z  INFO 8664 --- [SecureApp] [main] c.s.demo.SecureAppApplication            : Started SecureAppApplication in 4.47 seconds (process running for 4.881)
+2026-01-02T04:26:40.238Z  WARN 8664 --- [SecureApp] [http-nio-8080-exec-1] c.s.demo.controller.PostController       : Search endpoint hit with query: <script>alert('this message propped up because of reflected XSS Vulnerability')</script>
